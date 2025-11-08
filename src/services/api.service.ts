@@ -1,6 +1,5 @@
 // src/services/api.service.ts
-// Asegúrate de importar o definir API_CONFIG antes de usarlo
-import { API_CONFIG } from '../config/api.config'; // Ajusta la ruta según corresponda
+import { API_CONFIG } from '../config/api.config';
 
 class ApiService {
   private baseUrl: string;
@@ -17,11 +16,15 @@ class ApiService {
     
     const token = localStorage.getItem('auth_token');
     
+    // ✅ DETECTAR si el body es FormData
+    const isFormData = options.body instanceof FormData;
+    
     const config: RequestInit = {
       mode: 'cors',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json',
+        // ✅ SOLO agregar Content-Type si NO es FormData
+        ...(!isFormData && { 'Content-Type': 'application/json' }),
         'Accept': 'application/json',
         ...(token && { Authorization: `Bearer ${token}` }),
         ...options.headers,
@@ -33,7 +36,7 @@ class ApiService {
       method: config.method || 'GET',
       url,
       headers: config.headers,
-      body: config.body
+      body: isFormData ? 'FormData' : config.body
     });
 
     try {
@@ -94,22 +97,23 @@ class ApiService {
   async post<T>(endpoint: string, data: any): Promise<T> {
     return this.request<T>(endpoint, {
       method: 'POST',
-      body: JSON.stringify(data),
+      // ✅ NO hacer JSON.stringify si es FormData
+      body: data instanceof FormData ? data : JSON.stringify(data),
     });
   }
 
   async put<T>(endpoint: string, data: any): Promise<T> {
     return this.request<T>(endpoint, {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: data instanceof FormData ? data : JSON.stringify(data),
     });
   }
 
-  // ✅ MÉTODO PATCH AGREGADO - Esto es lo que faltaba
   async patch<T>(endpoint: string, data: any): Promise<T> {
     return this.request<T>(endpoint, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      // ✅ NO hacer JSON.stringify si es FormData
+      body: data instanceof FormData ? data : JSON.stringify(data),
     });
   }
 
