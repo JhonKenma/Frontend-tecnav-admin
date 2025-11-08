@@ -22,14 +22,15 @@ export const usePlace = (id?: string) => {
     }
   }, []);
 
-  const updatePlace = useCallback(async (updateData: UpdatePlaceDto) => {
+  // ✅ MODIFICADO: Ahora acepta File
+  const updatePlace = useCallback(async (updateData: UpdatePlaceDto, imageFile?: File) => {
     if (!id) throw new Error('No place ID provided');
     
     setLoading(true);
     setError(null);
     
     try {
-      const response = await placesService.updatePlace(id, updateData);
+      const response = await placesService.updatePlace(id, updateData, imageFile);
       setPlace(response.data);
       return response.data;
     } catch (err) {
