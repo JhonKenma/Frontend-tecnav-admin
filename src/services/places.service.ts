@@ -12,10 +12,6 @@ import {
 class PlacesService {
   private baseUrl = '/places';
 
-  /**
-   * Obtener todos los lugares con filtros opcionales
-   * GET /api/places
-   */
   async getAllPlaces(params?: SearchPlacesDto): Promise<PlaceApiResponse<Place[]>> {
     try {
       const queryParams = new URLSearchParams();
@@ -41,14 +37,34 @@ class PlacesService {
   }
 
   /**
-   * Crear un nuevo lugar
+   * Crear un nuevo lugar CON imagen
    * POST /api/places
    */
-  async createPlace(placeData: CreatePlaceDto): Promise<PlaceApiResponse<Place>> {
+  async createPlace(placeData: CreatePlaceDto, imageFile?: File): Promise<PlaceApiResponse<Place>> {
     try {
+      const formData = new FormData();
+      
+      // Agregar todos los campos del DTO
+      formData.append('nombre', placeData.nombre);
+      formData.append('latitud', placeData.latitud.toString());
+      formData.append('longitud', placeData.longitud.toString());
+      formData.append('tipoId', placeData.tipoId);
+      
+      if (placeData.descripcion) formData.append('descripcion', placeData.descripcion);
+      if (placeData.edificio) formData.append('edificio', placeData.edificio);
+      if (placeData.piso !== undefined) formData.append('piso', placeData.piso.toString());
+      if (placeData.codigoQR) formData.append('codigoQR', placeData.codigoQR);
+      if (placeData.isActive !== undefined) formData.append('isActive', placeData.isActive.toString());
+      
+      // Agregar imagen si existe
+      if (imageFile) {
+        formData.append('imagen', imageFile);
+      }
+
+      // ✅ SIN el tercer parámetro de headers (axios lo detecta automáticamente)
       const response = await apiService.post<PlaceApiResponse<Place>>(
         this.baseUrl, 
-        placeData
+        formData
       );
       return response;
     } catch (error) {
@@ -57,10 +73,6 @@ class PlacesService {
     }
   }
 
-  /**
-   * Buscar lugares por texto
-   * GET /api/places/search
-   */
   async searchPlaces(query: string): Promise<PlaceApiResponse<Place[]>> {
     try {
       const response = await apiService.get<PlaceApiResponse<Place[]>>(
@@ -73,10 +85,6 @@ class PlacesService {
     }
   }
 
-  /**
-   * Obtener estadísticas de lugares
-   * GET /api/places/stats
-   */
   async getPlaceStats(): Promise<PlaceApiResponse<PlaceStats>> {
     try {
       const response = await apiService.get<PlaceApiResponse<PlaceStats>>(
@@ -89,10 +97,6 @@ class PlacesService {
     }
   }
 
-  /**
-   * Obtener un lugar por ID
-   * GET /api/places/:id
-   */
   async getPlaceById(id: string): Promise<PlaceApiResponse<Place>> {
     try {
       const response = await apiService.get<PlaceApiResponse<Place>>(
@@ -106,14 +110,33 @@ class PlacesService {
   }
 
   /**
-   * Actualizar un lugar por ID
+   * Actualizar un lugar CON imagen
    * PATCH /api/places/:id
    */
-  async updatePlace(id: string, updateData: UpdatePlaceDto): Promise<PlaceApiResponse<Place>> {
+  async updatePlace(id: string, updateData: UpdatePlaceDto, imageFile?: File): Promise<PlaceApiResponse<Place>> {
     try {
+      const formData = new FormData();
+      
+      // Solo agregar campos que no sean undefined
+      if (updateData.nombre !== undefined) formData.append('nombre', updateData.nombre);
+      if (updateData.latitud !== undefined) formData.append('latitud', updateData.latitud.toString());
+      if (updateData.longitud !== undefined) formData.append('longitud', updateData.longitud.toString());
+      if (updateData.tipoId !== undefined) formData.append('tipoId', updateData.tipoId);
+      if (updateData.descripcion !== undefined) formData.append('descripcion', updateData.descripcion);
+      if (updateData.edificio !== undefined) formData.append('edificio', updateData.edificio);
+      if (updateData.piso !== undefined) formData.append('piso', updateData.piso.toString());
+      if (updateData.codigoQR !== undefined) formData.append('codigoQR', updateData.codigoQR);
+      if (updateData.isActive !== undefined) formData.append('isActive', updateData.isActive.toString());
+      
+      // Agregar imagen si existe
+      if (imageFile) {
+        formData.append('imagen', imageFile);
+      }
+
+      // ✅ SIN el tercer parámetro de headers
       const response = await apiService.patch<PlaceApiResponse<Place>>(
         `${this.baseUrl}/${id}`,
-        updateData
+        formData
       );
       return response;
     } catch (error) {
@@ -122,10 +145,6 @@ class PlacesService {
     }
   }
 
-  /**
-   * Eliminar un lugar por ID
-   * DELETE /api/places/:id
-   */
   async deletePlace(id: string): Promise<PlaceApiResponse<{ deleted: boolean }>> {
     try {
       const response = await apiService.delete<PlaceApiResponse<{ deleted: boolean }>>(
@@ -138,10 +157,6 @@ class PlacesService {
     }
   }
 
-  /**
-   * Activar/Desactivar un lugar
-   * PATCH /api/places/:id
-   */
   async togglePlaceStatus(id: string, isActive: boolean): Promise<PlaceApiResponse<Place>> {
     try {
       return await this.updatePlace(id, { isActive });
