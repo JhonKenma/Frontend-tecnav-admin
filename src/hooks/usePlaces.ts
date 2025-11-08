@@ -40,12 +40,13 @@ export const usePlaces = (initialParams?: SearchPlacesDto) => {
     }
   }, [initialParams]);
 
-  const createPlace = useCallback(async (data: CreatePlaceDto) => {
+  // ✅ MODIFICADO: Ahora acepta File
+  const createPlace = useCallback(async (data: CreatePlaceDto, imageFile?: File) => {
     setLoading(true);
     setError(null);
     
     try {
-      const response = await placesService.createPlace(data);
+      const response = await placesService.createPlace(data, imageFile);
       await fetchPlaces();
       return response.data;
     } catch (err) {
@@ -57,12 +58,13 @@ export const usePlaces = (initialParams?: SearchPlacesDto) => {
     }
   }, [fetchPlaces]);
 
-  const updatePlace = useCallback(async (id: string, data: UpdatePlaceDto) => {
+  // ✅ MODIFICADO: Ahora acepta File
+  const updatePlace = useCallback(async (id: string, data: UpdatePlaceDto, imageFile?: File) => {
     setLoading(true);
     setError(null);
     
     try {
-      const response = await placesService.updatePlace(id, data);
+      const response = await placesService.updatePlace(id, data, imageFile);
       await fetchPlaces();
       return response.data;
     } catch (err) {
