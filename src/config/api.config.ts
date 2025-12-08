@@ -1,6 +1,6 @@
 // src/config/api.config.ts
 export const API_CONFIG = {
-  BASE_URL: 'https://api.josephhuayra.online/api', // Backend en puerto 3000
+  BASE_URL: process.env.REACT_APP_API_URL || 'https://api.josephhuayra.online/api',
   ENDPOINTS: {
     AUTH: {
       LOGIN: '/auth/login',
