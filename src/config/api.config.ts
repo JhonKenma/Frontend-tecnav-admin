@@ -1,6 +1,6 @@
 // src/config/api.config.ts
 export const API_CONFIG = {
-  BASE_URL: 'http://localhost:3000/api', // Backend en puerto 3000
+  BASE_URL: 'https://backend-tecsupnav-fxg2.onrender.com/api', // Backend en puerto 3000
   ENDPOINTS: {
     AUTH: {
       LOGIN: '/auth/login',
