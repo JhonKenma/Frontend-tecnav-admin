@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { AuthContextType, User, LoginCredentials } from '../types/auth.types';
 import { authService } from '../services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -14,6 +15,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const navigate = useNavigate();
+
+  // ===== INIT =====
   useEffect(() => {
     const initializeAuth = () => {
       try {
@@ -34,7 +38,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
       } catch (error) {
         console.error('❌ Error initializing auth:', error);
-        // Limpiar cualquier dato corrupto
         localStorage.removeItem('auth_token');
         localStorage.removeItem('user');
       } finally {
@@ -45,20 +48,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     initializeAuth();
   }, []);
 
+  // ===== LOGIN =====
   const login = async (credentials: LoginCredentials): Promise<void> => {
     setIsLoading(true);
     try {
       console.log('🔐 AuthContext: Starting login process...');
       const response = await authService.login(credentials);
-      
-      console.log('🔐 AuthContext: Login response:', response);
-      console.log('🔐 AuthContext: Setting token:', response.access_token.substring(0, 20) + '...');
-      console.log('🔐 AuthContext: Setting user:', response.user);
-      
+
       setToken(response.access_token);
       setUser(response.user);
-      
-      console.log('✅ AuthContext: Login successful, user state updated');
+
+      console.log('✅ AuthContext: Login successful');
     } catch (error) {
       console.error('❌ AuthContext: Login failed:', error);
       throw error;
@@ -67,17 +67,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // ===== LOGOUT (actualizado) =====
   const logout = () => {
-    // Limpiar inmediatamente el estado
+    console.log('🚪 Logging out...');
+
+    // limpiar estados
     setToken(null);
     setUser(null);
-    
-    // Limpiar localStorage
+
+    // limpiar localStorage
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
-    
-    // Redirigir al login
-    window.location.href = "/login";
+
+    // redirigir sin recargar la página
+    navigate('/login', { replace: true });
+
+    console.log('✅ Logout completed, redirected to /login');
   };
 
   const value: AuthContextType = {
