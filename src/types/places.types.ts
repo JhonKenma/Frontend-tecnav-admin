@@ -59,6 +59,14 @@ export interface SearchPlacesDto {
   limit?: number;
 }
 
+// 🆕 Interfaz de paginación
+export interface PaginationMeta {
+  total: number;
+  page: number;
+  limit: number;
+  pages: number;
+}
+
 export interface PlaceStats {
   total: number;
   active: number;
@@ -77,10 +85,5 @@ export interface PlaceApiResponse<T = any> {
   success: boolean;
   data: T;
   message?: string;
-  pagination?: {
-    total: number;
-    page: number;
-    limit: number;
-    pages: number;
-  };
+  pagination?: PaginationMeta;
 }
