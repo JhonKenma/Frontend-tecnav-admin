@@ -20,7 +20,10 @@ const Header: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <span>Bienvenido, {user.lastName}</span>
           <button
-            onClick={logout}
+            onClick={() => {
+              logout();
+              window.location.href = '/login';
+            }}
             style={{
               padding: '5px 10px',
               backgroundColor: '#dc3545',
@@ -32,6 +35,7 @@ const Header: React.FC = () => {
           >
             Cerrar Sesión
           </button>
+
         </div>
       )}
     </header>
