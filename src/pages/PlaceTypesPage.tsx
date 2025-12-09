@@ -1,7 +1,7 @@
-// src/pages/PlaceTypesPage.tsx - Actualizar referencias a icono
+// src/pages/PlaceTypesPage.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/layout/Header';
+import AdminLayout from '../components/layout/AdminLayout';
 import { usePlaceTypes } from '../hooks/usePlaceTypes';
 import { usePlaceTypeStats } from '../hooks/usePlaceTypeStats';
 
@@ -34,25 +34,78 @@ export const PlaceTypesPage: React.FC = () => {
   };
 
   const renderListTab = () => {
-    if (loadingList) return <div style={{ padding: '20px', textAlign: 'center' }}>🔄 Cargando tipos de lugares...</div>;
-    if (errorList) return <div style={{ padding: '20px', color: '#dc3545' }}>❌ Error: {errorList}</div>;
+    if (loadingList) {
+      return (
+        <div style={{ 
+          padding: '40px', 
+          textAlign: 'center',
+          color: '#6b7280'
+        }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔄</div>
+          <p>Cargando tipos de lugares...</p>
+        </div>
+      );
+    }
+
+    if (errorList) {
+      return (
+        <div style={{ 
+          padding: '40px', 
+          textAlign: 'center'
+        }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>❌</div>
+          <p style={{ color: '#dc2626', fontSize: '16px' }}>Error: {errorList}</p>
+        </div>
+      );
+    }
 
     return (
-      <div style={{ padding: '20px' }}>
+      <div style={{ padding: '24px' }}>
         {placeTypes.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '40px' }}>
-            <h4>No hay tipos de lugares registrados</h4>
-            <p style={{ color: '#6c757d' }}>Crea el primer tipo de lugar para comenzar</p>
+          <div style={{ 
+            textAlign: 'center', 
+            padding: '60px 20px',
+            background: '#f9fafb',
+            borderRadius: '12px',
+            border: '2px dashed #e5e7eb'
+          }}>
+            <div style={{ fontSize: '64px', marginBottom: '16px' }}>🏢</div>
+            <h3 style={{ 
+              margin: '0 0 8px 0',
+              fontSize: '20px',
+              fontWeight: '600',
+              color: '#1f2937'
+            }}>
+              No hay tipos de lugares registrados
+            </h3>
+            <p style={{ 
+              color: '#6b7280',
+              marginBottom: '24px',
+              fontSize: '14px'
+            }}>
+              Crea el primer tipo de lugar para comenzar a organizar tus espacios
+            </p>
             <button
               onClick={() => navigate('/place-types/new')}
               style={{
-                backgroundColor: '#28a745',
-                color: 'white',
+                background: 'linear-gradient(135deg, #00A7E1 0%, #0088BA 100%)',
+                color: '#ffffff',
                 border: 'none',
-                padding: '10px 20px',
-                borderRadius: '4px',
+                padding: '12px 24px',
+                borderRadius: '8px',
                 cursor: 'pointer',
-                marginTop: '10px'
+                fontSize: '14px',
+                fontWeight: '600',
+                boxShadow: '0 4px 12px rgba(0, 167, 225, 0.3)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 167, 225, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 167, 225, 0.3)';
               }}
             >
               ➕ Crear Primer Tipo
@@ -60,62 +113,198 @@ export const PlaceTypesPage: React.FC = () => {
           </div>
         ) : (
           <div>
-            <div style={{ marginBottom: '20px', textAlign: 'right' }}>
-              <span style={{ color: '#6c757d', marginRight: '20px' }}>
-                Total: {placeTypes.length} tipos de lugares
+            <div style={{ 
+              marginBottom: '24px', 
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <span style={{ 
+                color: '#6b7280',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}>
+                Total: <strong style={{ color: '#1f2937' }}>{placeTypes.length}</strong> tipos de lugares
               </span>
               <button
                 onClick={() => navigate('/place-types/new')}
                 style={{
-                  backgroundColor: '#28a745',
-                  color: 'white',
+                  background: 'linear-gradient(135deg, #00A7E1 0%, #0088BA 100%)',
+                  color: '#ffffff',
                   border: 'none',
-                  padding: '8px 16px',
-                  borderRadius: '4px',
-                  cursor: 'pointer'
+                  padding: '10px 20px',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  boxShadow: '0 2px 8px rgba(0, 167, 225, 0.3)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 167, 225, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 167, 225, 0.3)';
                 }}
               >
                 ➕ Crear Nuevo
               </button>
             </div>
 
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: 'white' }}>
+            <div style={{ 
+              overflowX: 'auto',
+              borderRadius: '12px',
+              border: '1px solid #e5e7eb'
+            }}>
+              <table style={{ 
+                width: '100%', 
+                borderCollapse: 'collapse', 
+                backgroundColor: '#ffffff'
+              }}>
                 <thead>
-                  <tr style={{ backgroundColor: '#f8f9fa' }}>
-                    <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Tipo</th>
-                    <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Descripción</th>
-                    <th style={{ padding: '12px', textAlign: 'center', borderBottom: '2px solid #dee2e6' }}>Creado</th>
-                    <th style={{ padding: '12px', textAlign: 'center', borderBottom: '2px solid #dee2e6' }}>Acciones</th>
+                  <tr style={{ backgroundColor: '#f9fafb' }}>
+                    <th style={{ 
+                      padding: '16px', 
+                      textAlign: 'left', 
+                      borderBottom: '2px solid #e5e7eb',
+                      color: '#374151',
+                      fontSize: '13px',
+                      fontWeight: '700',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}>
+                      Tipo
+                    </th>
+                    <th style={{ 
+                      padding: '16px', 
+                      textAlign: 'left', 
+                      borderBottom: '2px solid #e5e7eb',
+                      color: '#374151',
+                      fontSize: '13px',
+                      fontWeight: '700',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}>
+                      Descripción
+                    </th>
+                    <th style={{ 
+                      padding: '16px', 
+                      textAlign: 'center', 
+                      borderBottom: '2px solid #e5e7eb',
+                      color: '#374151',
+                      fontSize: '13px',
+                      fontWeight: '700',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}>
+                      Creado
+                    </th>
+                    <th style={{ 
+                      padding: '16px', 
+                      textAlign: 'center', 
+                      borderBottom: '2px solid #e5e7eb',
+                      color: '#374151',
+                      fontSize: '13px',
+                      fontWeight: '700',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}>
+                      Acciones
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {placeTypes.map((placeType) => (
-                    <tr key={placeType.id} style={{ borderBottom: '1px solid #dee2e6' }}>
-                      <td style={{ padding: '12px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '20px' }}>{placeType.icono || '🏢'}</span>
-                          <span style={{ fontWeight: '500' }}>{placeType.nombre}</span>
+                  {placeTypes.map((placeType, index) => (
+                    <tr 
+                      key={placeType.id} 
+                      style={{ 
+                        borderBottom: index < placeTypes.length - 1 ? '1px solid #e5e7eb' : 'none',
+                        transition: 'background-color 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#f9fafb';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#ffffff';
+                      }}
+                    >
+                      <td style={{ padding: '16px' }}>
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: '12px' 
+                        }}>
+                          <div style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '10px',
+                            background: 'linear-gradient(135deg, #00A7E1 0%, #0088BA 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '20px'
+                          }}>
+                            {placeType.icono || '🏢'}
+                          </div>
+                          <span style={{ 
+                            fontWeight: '600',
+                            color: '#1f2937',
+                            fontSize: '14px'
+                          }}>
+                            {placeType.nombre}
+                          </span>
                         </div>
                       </td>
-                      <td style={{ padding: '12px', color: '#6c757d' }}>
+                      <td style={{ 
+                        padding: '16px', 
+                        color: '#6b7280',
+                        fontSize: '14px'
+                      }}>
                         {placeType.descripcion || '-'}
                       </td>
-                      <td style={{ padding: '12px', textAlign: 'center', fontSize: '14px', color: '#6c757d' }}>
-                        {new Date(placeType.createdAt).toLocaleDateString()}
+                      <td style={{ 
+                        padding: '16px', 
+                        textAlign: 'center', 
+                        fontSize: '13px', 
+                        color: '#6b7280' 
+                      }}>
+                        {new Date(placeType.createdAt).toLocaleDateString('es-ES', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric'
+                        })}
                       </td>
-                      <td style={{ padding: '12px', textAlign: 'center' }}>
-                        <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
+                      <td style={{ padding: '16px', textAlign: 'center' }}>
+                        <div style={{ 
+                          display: 'flex', 
+                          gap: '8px', 
+                          justifyContent: 'center' 
+                        }}>
                           <button
                             onClick={() => navigate(`/place-types/${placeType.id}/edit`)}
                             style={{
-                              backgroundColor: '#ffc107',
-                              color: '#212529',
+                              backgroundColor: '#fbbf24',
+                              color: '#ffffff',
                               border: 'none',
-                              padding: '4px 8px',
-                              borderRadius: '3px',
+                              padding: '8px 12px',
+                              borderRadius: '6px',
                               cursor: 'pointer',
-                              fontSize: '12px'
+                              fontSize: '12px',
+                              fontWeight: '600',
+                              transition: 'all 0.2s ease',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = '#f59e0b';
+                              e.currentTarget.style.transform = 'scale(1.05)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = '#fbbf24';
+                              e.currentTarget.style.transform = 'scale(1)';
                             }}
                           >
                             ✏️ Editar
@@ -123,13 +312,26 @@ export const PlaceTypesPage: React.FC = () => {
                           <button
                             onClick={() => handleDelete(placeType.id, placeType.nombre)}
                             style={{
-                              backgroundColor: '#dc3545',
-                              color: 'white',
+                              backgroundColor: '#dc2626',
+                              color: '#ffffff',
                               border: 'none',
-                              padding: '4px 8px',
-                              borderRadius: '3px',
+                              padding: '8px 12px',
+                              borderRadius: '6px',
                               cursor: 'pointer',
-                              fontSize: '12px'
+                              fontSize: '12px',
+                              fontWeight: '600',
+                              transition: 'all 0.2s ease',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = '#b91c1c';
+                              e.currentTarget.style.transform = 'scale(1.05)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = '#dc2626';
+                              e.currentTarget.style.transform = 'scale(1)';
                             }}
                           >
                             🗑️ Eliminar
@@ -148,12 +350,45 @@ export const PlaceTypesPage: React.FC = () => {
   };
 
   const renderStatsTab = () => {
-    if (loadingStats) return <div style={{ padding: '20px', textAlign: 'center' }}>🔄 Cargando estadísticas...</div>;
-    if (errorStats) return <div style={{ padding: '20px', color: '#dc3545' }}>❌ Error: {errorStats}</div>;
-    if (!stats) return <div style={{ padding: '20px', textAlign: 'center' }}>No hay estadísticas disponibles</div>;
+    if (loadingStats) {
+      return (
+        <div style={{ 
+          padding: '40px', 
+          textAlign: 'center',
+          color: '#6b7280'
+        }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔄</div>
+          <p>Cargando estadísticas...</p>
+        </div>
+      );
+    }
+
+    if (errorStats) {
+      return (
+        <div style={{ 
+          padding: '40px', 
+          textAlign: 'center'
+        }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>❌</div>
+          <p style={{ color: '#dc2626', fontSize: '16px' }}>Error: {errorStats}</p>
+        </div>
+      );
+    }
+
+    if (!stats) {
+      return (
+        <div style={{ 
+          padding: '40px', 
+          textAlign: 'center',
+          color: '#6b7280'
+        }}>
+          No hay estadísticas disponibles
+        </div>
+      );
+    }
 
     return (
-      <div style={{ padding: '20px' }}>
+      <div style={{ padding: '24px' }}>
         <div style={{ 
           display: 'grid', 
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
@@ -161,75 +396,158 @@ export const PlaceTypesPage: React.FC = () => {
           marginBottom: '30px'
         }}>
           <div style={{ 
-            padding: '20px', 
-            backgroundColor: '#f8f9fa', 
-            borderRadius: '8px',
+            padding: '24px', 
+            background: '#f9fafb',
+            borderRadius: '12px',
             textAlign: 'center',
-            border: '1px solid #dee2e6'
+            border: '1px solid #e5e7eb',
+            transition: 'all 0.2s ease'
           }}>
-            <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#495057' }}>{stats.totalPlaceTypes}</div>
-            <div style={{ color: '#6c757d' }}>Total de Tipos</div>
+            <div style={{ 
+              fontSize: '36px', 
+              fontWeight: '700', 
+              color: '#1f2937',
+              marginBottom: '8px'
+            }}>
+              {stats.totalPlaceTypes}
+            </div>
+            <div style={{ 
+              color: '#6b7280',
+              fontSize: '14px',
+              fontWeight: '600'
+            }}>
+              Total de Tipos
+            </div>
           </div>
           
           <div style={{ 
-            padding: '20px', 
-            backgroundColor: '#d4edda', 
-            borderRadius: '8px',
+            padding: '24px', 
+            background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+            borderRadius: '12px',
             textAlign: 'center',
-            border: '1px solid #c3e6cb'
+            border: '1px solid #86efac',
+            transition: 'all 0.2s ease'
           }}>
-            <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#155724' }}>{stats.activePlaceTypes}</div>
-            <div style={{ color: '#155724' }}>Tipos Activos</div>
+            <div style={{ 
+              fontSize: '36px', 
+              fontWeight: '700', 
+              color: '#065f46',
+              marginBottom: '8px'
+            }}>
+              {stats.activePlaceTypes}
+            </div>
+            <div style={{ 
+              color: '#065f46',
+              fontSize: '14px',
+              fontWeight: '600'
+            }}>
+              Tipos Activos
+            </div>
           </div>
           
           <div style={{ 
-            padding: '20px', 
-            backgroundColor: '#f8d7da', 
-            borderRadius: '8px',
+            padding: '24px', 
+            background: 'linear-gradient(135deg, #fecaca 0%, #fca5a5 100%)',
+            borderRadius: '12px',
             textAlign: 'center',
-            border: '1px solid #f5c6cb'
+            border: '1px solid #fca5a5',
+            transition: 'all 0.2s ease'
           }}>
-            <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#721c24' }}>{stats.inactivePlaceTypes}</div>
-            <div style={{ color: '#721c24' }}>Tipos Inactivos</div>
+            <div style={{ 
+              fontSize: '36px', 
+              fontWeight: '700', 
+              color: '#7f1d1d',
+              marginBottom: '8px'
+            }}>
+              {stats.inactivePlaceTypes}
+            </div>
+            <div style={{ 
+              color: '#7f1d1d',
+              fontSize: '14px',
+              fontWeight: '600'
+            }}>
+              Tipos Inactivos
+            </div>
           </div>
         </div>
 
         {stats.mostUsedPlaceType && (
           <div style={{
-            padding: '20px',
-            backgroundColor: '#d1ecf1',
-            borderRadius: '8px',
-            border: '1px solid #bee5eb',
-            marginBottom: '20px'
+            padding: '24px',
+            background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+            borderRadius: '12px',
+            border: '1px solid #93c5fd',
+            marginBottom: '24px'
           }}>
-            <h4 style={{ margin: '0 0 10px 0', color: '#0c5460' }}>🏆 Tipo Más Utilizado</h4>
-            <p style={{ margin: '0', fontSize: '18px' }}>
-              <strong>{stats.mostUsedPlaceType.nombre}</strong> - {stats.mostUsedPlaceType.usageCount} usos
+            <h4 style={{ 
+              margin: '0 0 12px 0', 
+              color: '#1e3a8a',
+              fontSize: '16px',
+              fontWeight: '700',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <span style={{ fontSize: '24px' }}>🏆</span>
+              Tipo Más Utilizado
+            </h4>
+            <p style={{ 
+              margin: '0', 
+              fontSize: '18px',
+              color: '#1e40af',
+              fontWeight: '600'
+            }}>
+              {stats.mostUsedPlaceType.nombre} - {stats.mostUsedPlaceType.usageCount} usos
             </p>
           </div>
         )}
 
         {stats.recentlyCreated && stats.recentlyCreated.length > 0 && (
           <div style={{
-            padding: '20px',
-            backgroundColor: '#fff3cd',
-            borderRadius: '8px',
-            border: '1px solid #ffeaa7'
+            padding: '24px',
+            background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+            borderRadius: '12px',
+            border: '1px solid #fcd34d'
           }}>
-            <h4 style={{ margin: '0 0 15px 0', color: '#856404' }}>🆕 Creados Recientemente</h4>
-            <div style={{ display: 'grid', gap: '10px' }}>
+            <h4 style={{ 
+              margin: '0 0 16px 0', 
+              color: '#78350f',
+              fontSize: '16px',
+              fontWeight: '700',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <span style={{ fontSize: '24px' }}>🆕</span>
+              Creados Recientemente
+            </h4>
+            <div style={{ display: 'grid', gap: '12px' }}>
               {stats.recentlyCreated.map((placeType) => (
                 <div key={placeType.id} style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  padding: '10px',
-                  backgroundColor: 'white',
-                  borderRadius: '4px'
+                  padding: '14px',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '8px',
+                  border: '1px solid #fde68a'
                 }}>
-                  <span>{placeType.icono} {placeType.nombre}</span>
-                  <small style={{ color: '#6c757d' }}>
-                    {new Date(placeType.createdAt).toLocaleDateString()}
+                  <span style={{ 
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    color: '#1f2937'
+                  }}>
+                    {placeType.icono} {placeType.nombre}
+                  </span>
+                  <small style={{ 
+                    color: '#6b7280',
+                    fontSize: '13px'
+                  }}>
+                    {new Date(placeType.createdAt).toLocaleDateString('es-ES', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric'
+                    })}
                   </small>
                 </div>
               ))}
@@ -241,41 +559,81 @@ export const PlaceTypesPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <Header />
-      <main style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          marginBottom: '20px' 
-        }}>
-          <h1 style={{ margin: '0', color: '#333' }}>🏢 Tipos de Lugares</h1>
-          <button
-            onClick={() => navigate('/dashboard')}
-            style={{
-              backgroundColor: '#6c757d',
-              color: 'white',
-              border: 'none',
-              padding: '8px 16px',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            ← Dashboard
-          </button>
+    <AdminLayout>
+      {/* Header Section */}
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        marginBottom: '24px' 
+      }}>
+        <div>
+          <h1 style={{ 
+            margin: '0 0 8px 0', 
+            color: '#1f2937',
+            fontSize: '28px',
+            fontWeight: '700',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
+          }}>
+            <span style={{ fontSize: '32px' }}>🏢</span>
+            Tipos de Lugares
+          </h1>
+          <p style={{
+            margin: 0,
+            fontSize: '14px',
+            color: '#6b7280'
+          }}>
+            Gestiona las categorías de lugares en el sistema
+          </p>
         </div>
+        <button
+          onClick={() => navigate('/dashboard')}
+          style={{
+            backgroundColor: '#6b7280',
+            color: '#ffffff',
+            border: 'none',
+            padding: '10px 20px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '600',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#4b5563';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = '#6b7280';
+          }}
+        >
+          ← Dashboard
+        </button>
+      </div>
 
-        <div style={{ marginBottom: '20px' }}>
+      {/* Tabs */}
+      <div style={{ marginBottom: '24px' }}>
+        <div style={{ 
+          display: 'inline-flex',
+          background: '#f9fafb',
+          borderRadius: '10px',
+          padding: '4px',
+          border: '1px solid #e5e7eb'
+        }}>
           <button
             onClick={() => setActiveTab('list')}
             style={{
-              backgroundColor: activeTab === 'list' ? '#007bff' : '#f8f9fa',
-              color: activeTab === 'list' ? 'white' : '#495057',
-              border: '1px solid #dee2e6',
+              backgroundColor: activeTab === 'list' ? '#ffffff' : 'transparent',
+              color: activeTab === 'list' ? '#1f2937' : '#6b7280',
+              border: 'none',
               padding: '10px 20px',
               cursor: 'pointer',
-              borderRadius: '4px 0 0 4px'
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: '600',
+              transition: 'all 0.2s ease',
+              boxShadow: activeTab === 'list' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : 'none'
             }}
           >
             📋 Lista
@@ -283,27 +641,33 @@ export const PlaceTypesPage: React.FC = () => {
           <button
             onClick={() => setActiveTab('stats')}
             style={{
-              backgroundColor: activeTab === 'stats' ? '#007bff' : '#f8f9fa',
-              color: activeTab === 'stats' ? 'white' : '#495057',
-              border: '1px solid #dee2e6',
+              backgroundColor: activeTab === 'stats' ? '#ffffff' : 'transparent',
+              color: activeTab === 'stats' ? '#1f2937' : '#6b7280',
+              border: 'none',
               padding: '10px 20px',
               cursor: 'pointer',
-              borderRadius: '0 4px 4px 0'
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: '600',
+              transition: 'all 0.2s ease',
+              boxShadow: activeTab === 'stats' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : 'none'
             }}
           >
             📊 Estadísticas
           </button>
         </div>
+      </div>
 
-        <div style={{
-          backgroundColor: 'white',
-          border: '1px solid #dee2e6',
-          borderRadius: '8px',
-          minHeight: '400px'
-        }}>
-          {activeTab === 'list' ? renderListTab() : renderStatsTab()}
-        </div>
-      </main>
-    </div>
+      {/* Content Card */}
+      <div style={{
+        backgroundColor: '#ffffff',
+        border: '1px solid #e5e7eb',
+        borderRadius: '16px',
+        minHeight: '500px',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)'
+      }}>
+        {activeTab === 'list' ? renderListTab() : renderStatsTab()}
+      </div>
+    </AdminLayout>
   );
-}
+};
