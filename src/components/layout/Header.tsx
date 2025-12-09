@@ -6,24 +6,24 @@ const Header: React.FC = () => {
   const { user, logout } = useAuth();
 
   return (
-    <header style={{
-      backgroundColor: '#f8f9fa',
-      padding: '1rem',
-      borderBottom: '1px solid #dee2e6',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    }}>
+    <header
+      style={{
+        backgroundColor: '#f8f9fa',
+        padding: '1rem',
+        borderBottom: '1px solid #dee2e6',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
       <h1>Tecsup Navigation</h1>
-      
+
       {user && (
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <span>Bienvenido, {user.lastName}</span>
+
           <button
-            onClick={() => {
-              logout();
-              window.location.href = '/login';
-            }}
+            onClick={logout} // 🔥 ahora solo usa logout() del AuthContext
             style={{
               padding: '5px 10px',
               backgroundColor: '#dc3545',
@@ -35,7 +35,6 @@ const Header: React.FC = () => {
           >
             Cerrar Sesión
           </button>
-
         </div>
       )}
     </header>
