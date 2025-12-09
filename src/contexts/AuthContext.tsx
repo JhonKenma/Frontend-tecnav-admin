@@ -68,9 +68,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = () => {
-    authService.logout();
+    // Limpiar inmediatamente el estado
     setToken(null);
     setUser(null);
+    
+    // Limpiar localStorage
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user');
+    
+    // Redirigir al login
+    window.location.href = "/login";
   };
 
   const value: AuthContextType = {
