@@ -30,27 +30,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       icon: '📍',
       path: '/places',
     },
-    {
-      id: 'routes',
-      label: 'Rutas',
-      icon: '🗺️',
-      path: '/routes',
-      disabled: true,
-    },
+
+    // ✅ AGREGADO: MENÚ DE USUARIOS
     {
       id: 'users',
       label: 'Usuarios',
       icon: '👥',
       path: '/users',
-      disabled: true,
+      disabled: false,
     },
-    {
-      id: 'settings',
-      label: 'Configuración',
-      icon: '⚙️',
-      path: '/settings',
-      disabled: true,
-    },
+
   ];
 
   const isActive = (path: string) => {
@@ -71,6 +60,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       display: 'flex',
       flexDirection: 'column',
     }}>
+      
       {/* Logo Section */}
       <div style={{
         padding: '24px 20px',
@@ -183,12 +173,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
                 borderRadius: '0 4px 4px 0',
               }}></div>
             )}
+
             <span style={{ 
               fontSize: '20px',
               flexShrink: 0,
             }}>
               {item.icon}
             </span>
+
             {!isCollapsed && (
               <span style={{
                 whiteSpace: 'nowrap',
@@ -198,6 +190,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
                 {item.label}
               </span>
             )}
+
             {item.disabled && !isCollapsed && (
               <span style={{
                 marginLeft: 'auto',
