@@ -1,4 +1,4 @@
-// src/App.tsx - ACTUALIZADO CON RUTAS DE PLACES
+// src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -6,27 +6,30 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import PrivateRoute from './components/common/PrivateRoute';
 
-// Páginas para Place Types
+// Páginas Place Types
 import { PlaceTypesPage } from './pages/PlaceTypesPage';
 import { CreatePlaceTypePage } from './pages/CreatePlaceTypePage';
 import { EditPlaceTypePage } from './pages/EditPlaceTypePage';
 
-// 🆕 Páginas para Places
+// Páginas Places
 import { PlacesPage } from './pages/PlacesPage';
 import { CreatePlacePage } from './pages/CreatePlacePage';
 import { EditPlacePage } from './pages/EditPlacePage';
+
+// Página Users
+import UsersPage from './pages/UsersPage';
 
 const AppRoutes: React.FC = () => {
   const { user } = useAuth();
 
   return (
     <Routes>
-      {/* Ruta pública - Login */}
+      {/* Login */}
       <Route 
         path="/login" 
         element={user ? <Navigate to="/dashboard" replace /> : <LoginPage />} 
       />
-      
+
       {/* Dashboard */}
       <Route 
         path="/dashboard" 
@@ -36,8 +39,18 @@ const AppRoutes: React.FC = () => {
           </PrivateRoute>
         } 
       />
-      
-      {/* RUTAS PARA PLACE TYPES */}
+
+      {/* USERS */}
+      <Route
+        path="/users"
+        element={
+          <PrivateRoute>
+            <UsersPage />
+          </PrivateRoute>
+        }
+      />
+
+      {/* PLACE TYPES */}
       <Route 
         path="/place-types" 
         element={
@@ -46,7 +59,7 @@ const AppRoutes: React.FC = () => {
           </PrivateRoute>
         } 
       />
-      
+
       <Route 
         path="/place-types/new" 
         element={
@@ -55,7 +68,7 @@ const AppRoutes: React.FC = () => {
           </PrivateRoute>
         } 
       />
-      
+
       <Route 
         path="/place-types/:id/edit" 
         element={
@@ -64,8 +77,8 @@ const AppRoutes: React.FC = () => {
           </PrivateRoute>
         } 
       />
-      
-      {/* 🆕 RUTAS PARA PLACES */}
+
+      {/* PLACES */}
       <Route 
         path="/places" 
         element={
@@ -74,7 +87,7 @@ const AppRoutes: React.FC = () => {
           </PrivateRoute>
         } 
       />
-      
+
       <Route 
         path="/places/new" 
         element={
@@ -83,7 +96,7 @@ const AppRoutes: React.FC = () => {
           </PrivateRoute>
         } 
       />
-      
+
       <Route 
         path="/places/:id" 
         element={
@@ -92,7 +105,7 @@ const AppRoutes: React.FC = () => {
           </PrivateRoute>
         } 
       />
-      
+
       <Route 
         path="/places/:id/edit" 
         element={
@@ -101,14 +114,14 @@ const AppRoutes: React.FC = () => {
           </PrivateRoute>
         } 
       />
-      
-      {/* Ruta raíz */}
+
+      {/* Redirect root */}
       <Route 
         path="/" 
         element={<Navigate to={user ? "/dashboard" : "/login"} replace />} 
       />
-      
-      {/* Ruta 404 */}
+
+      {/* 404 */}
       <Route 
         path="*" 
         element={
