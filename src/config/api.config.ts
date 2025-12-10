@@ -17,7 +17,7 @@ const getApiBaseUrl = (): string => {
   }
 
   // En producción, usar el dominio de producción
-  return 'https://backend-tecsupnav-fxg2.onrender.com';
+  return 'https://api.josephhuayra.online/api';
 };
 
 // Configuración de desarrollo
