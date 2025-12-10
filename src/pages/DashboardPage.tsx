@@ -37,6 +37,13 @@ const DashboardPage: React.FC = () => {
       color: '#845EC2',
       action: () => navigate('/place-types'),
     },
+    {
+      title: 'Ver Usuarios',
+      description: 'Administrar usuarios del sistema',
+      icon: '👥',
+      color: '#f59e0b',
+      action: () => navigate('/users'),
+    },
   ];
 
   return (
