@@ -40,6 +40,12 @@ export const API_CONFIG = {
       LOGOUT: '/auth/logout',
       PROFILE: '/auth/profile',
     },
+    USERS: {
+      // 👇 NUEVOS ENDPOINTS
+      GOOGLE_USERS: '/users/google-users',
+      GOOGLE_USERS_STATS: '/users/google-users/stats',
+      ALL_USERS: '/users/all',
+    },
     PLACE_TYPES: {
       BASE: '/place-types',
       BY_ID: (id: string) => `/place-types/${id}`,
