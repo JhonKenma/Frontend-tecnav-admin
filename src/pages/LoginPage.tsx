@@ -45,22 +45,24 @@ const LoginForm: React.FC = () => {
         boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
         border: '1px solid #e5e7eb'
       }}>
+
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{
             width: '80px',
             height: '80px',
             margin: '0 auto 24px',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)', // celeste Tecsup
             borderRadius: '20px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '36px',
-            boxShadow: '0 8px 16px rgba(102, 126, 234, 0.3)'
+            boxShadow: '0 8px 16px rgba(14, 165, 233, 0.4)'
           }}>
             🎓
           </div>
+
           <h2 style={{
             margin: '0 0 8px 0',
             fontSize: '28px',
@@ -70,6 +72,7 @@ const LoginForm: React.FC = () => {
           }}>
             Bienvenido
           </h2>
+
           <p style={{
             margin: 0,
             fontSize: '15px',
@@ -80,7 +83,7 @@ const LoginForm: React.FC = () => {
         </div>
 
         <form onSubmit={handleSubmit}>
-          {/* Email Field */}
+          {/* Email */}
           <div style={{ marginBottom: '24px' }}>
             <label 
               htmlFor="email"
@@ -94,6 +97,7 @@ const LoginForm: React.FC = () => {
             >
               Correo Electrónico
             </label>
+
             <div style={{ position: 'relative' }}>
               <span style={{
                 position: 'absolute',
@@ -105,6 +109,7 @@ const LoginForm: React.FC = () => {
               }}>
                 📧
               </span>
+
               <input
                 type="email"
                 id="email"
@@ -126,9 +131,9 @@ const LoginForm: React.FC = () => {
                   boxSizing: 'border-box'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#667eea';
+                  e.target.style.borderColor = '#0ea5e9';
                   e.target.style.backgroundColor = '#ffffff';
-                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.1)';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(14, 165, 233, 0.2)';
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = '#e5e7eb';
@@ -138,8 +143,8 @@ const LoginForm: React.FC = () => {
               />
             </div>
           </div>
-          
-          {/* Password Field */}
+
+          {/* Password */}
           <div style={{ marginBottom: '24px' }}>
             <label 
               htmlFor="password"
@@ -153,6 +158,7 @@ const LoginForm: React.FC = () => {
             >
               Contraseña
             </label>
+
             <div style={{ position: 'relative' }}>
               <span style={{
                 position: 'absolute',
@@ -164,6 +170,7 @@ const LoginForm: React.FC = () => {
               }}>
                 🔒
               </span>
+
               <input
                 type="password"
                 id="password"
@@ -185,9 +192,9 @@ const LoginForm: React.FC = () => {
                   boxSizing: 'border-box'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#667eea';
+                  e.target.style.borderColor = '#0ea5e9';
                   e.target.style.backgroundColor = '#ffffff';
-                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.1)';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(14, 165, 233, 0.2)';
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = '#e5e7eb';
@@ -198,7 +205,7 @@ const LoginForm: React.FC = () => {
             </div>
           </div>
 
-          {/* Error Message */}
+          {/* Error */}
           {error && (
             <div style={{
               padding: '12px 16px',
@@ -217,7 +224,7 @@ const LoginForm: React.FC = () => {
             </div>
           )}
 
-          {/* Submit Button */}
+          {/* Botón */}
           <button
             type="submit"
             disabled={isLoading}
@@ -226,33 +233,21 @@ const LoginForm: React.FC = () => {
               padding: '14px',
               fontSize: '16px',
               fontWeight: '600',
-              background: isLoading 
-                ? 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)' 
-                : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: isLoading
+                ? 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)'
+                : 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)',
               color: '#ffffff',
               border: 'none',
               borderRadius: '10px',
               cursor: isLoading ? 'not-allowed' : 'pointer',
               transition: 'all 0.3s ease',
-              boxShadow: isLoading 
-                ? 'none' 
-                : '0 4px 12px rgba(102, 126, 234, 0.4)',
+              boxShadow: isLoading
+                ? 'none'
+                : '0 4px 12px rgba(14, 165, 233, 0.4)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px'
-            }}
-            onMouseEnter={(e) => {
-              if (!isLoading) {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 20px rgba(102, 126, 234, 0.5)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!isLoading) {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
-              }
             }}
           >
             {isLoading ? (
@@ -289,7 +284,7 @@ const LoginForm: React.FC = () => {
             fontSize: '13px',
             color: '#6b7280'
           }}>
-            Tecsup Navigation System © 2024
+            Tecsup Navigation System © 2025
           </p>
         </div>
       </div>
